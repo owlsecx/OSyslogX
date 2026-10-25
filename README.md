@@ -18,19 +18,20 @@
 
 ## 📌 Overview
 
-rsyslog / syslog-ng / journald / logrotate configuration hardening auditor
+
+OSyslogX is an offline, read-only auditor for system-log daemon configurations: rsyslog, syslog-ng, systemd-journald and logrotate. It parses legacy rsyslog directives and RainerScript, syslog-ng network transports, journald storage/retention and logrotate rules, flagging insecure forwarding, missing TLS and weak retention. Secrets are masked, findings are mapped to CWE and MITRE, and reports export to TXT, Markdown, JSON, CSV or SARIF.
 
 ---
 
 ## ✨ Features
 
-- rsyslog legacy ($Directive / selector) + RainerScript parser, $IncludeConfig / include() following
-- Forwarding over UDP / TCP / RELP without TLS, anon StreamDriverAuthMode, imudp / imtcp without ACLs
-- syslog-ng network() / syslog() transport + peer-verify, program() destinations, perm(), $HOST paths, $RAWMSG
-- journald Storage, retention, MaxLevelStore, Seal, limits
-- logrotate retention, create modes, su / logrotten, writable postrotate scripts, olddir
-- /var/log walk — auth / audit / wtmp / btmp / lastlog
-- Masked secrets, --root, CWE + MITRE, TXT/MD/JSON/CSV/SARIF, self-test --demo, CI gates --fail-on / --min-severity
+
+- rsyslog legacy ($directive/selector) and RainerScript parser with include() following
+- Detects forwarding over UDP/TCP/RELP without TLS and imudp/imtcp inputs without ACLs
+- syslog-ng network()/syslog() transport and peer-verify, program() destinations and path checks
+- journald Storage/retention/Seal and logrotate retention, create modes, su and writable postrotate scripts
+- /var/log permission walk (auth, audit, wtmp, btmp, lastlog) with masked secrets
+- CWE+MITRE mapping, --root offline trees and TXT/MD/JSON/CSV/SARIF export with CI gates
 
 ---
 
@@ -43,8 +44,13 @@ rsyslog / syslog-ng / journald / logrotate configuration hardening auditor
 
 ## 🚀 Usage
 
+
 ```bash
-./OSyslogX
+./OSyslogX --scan -f sarif -o syslog.sarif
+./OSyslogX --rsyslog /etc/rsyslog.conf --journald /etc/systemd/journald.conf
+./OSyslogX -r /mnt/image --fail-on high --json
+./OSyslogX --demo
+./OSyslogX --help
 ```
 
 ---
